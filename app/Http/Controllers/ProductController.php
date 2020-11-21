@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductCreateRequest;
 use App\Http\Resources\ProductResource;
 use App\Product;
 use Illuminate\Http\Request;
@@ -15,22 +16,25 @@ class ProductController extends Controller
         return ProductResource::collection($products);
     }
 
-    public function store(Request $request)
-    {
-        $product = Product::create($request->only('title', 'description', 'price', ''));
-
-        return response(new ProductResource($product), Response::HTTP_CREATED);
-    }
-
     public function show($id)
     {
         $product = Product::find($id);
         return new ProductResource($product);
     }
 
+    public function store(ProductCreateRequest $request)
+    {
+        $product = Product::create($request->only('title', 'description', 'image', 'price'));
+
+        return response(new ProductResource($product), Response::HTTP_CREATED);
+    }
+
     public function update(Request $request, $id)
     {
-        //
+        $product = Product::find($id);
+        $product->update($request->only('title', 'description', 'image', 'price'));
+
+        return response(new ProductResource($product), Response::HTTP_ACCEPTED);
     }
 
     public function destroy($id)
