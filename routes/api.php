@@ -12,4 +12,5 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::apiResource('users', 'UserController');
     Route::apiResource('roles', 'RoleController');
+    Route::apiResource('products', 'ProductController');
 });
