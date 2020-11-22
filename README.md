@@ -1,61 +1,96 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Laravel Admin App
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+> A simple admin app built to implement certain functionalities 
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## API Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Pagination
+- API Auth with Laravel Passport
+- Protected Routes
+- Roles and Permissions
+- Exporting to CSV
+- Charts for Analytics
+- Product Orders and Image Uploads
+- Swagger Documentation
+## Getting Started
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-## Learning Laravel
+## Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Clone
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
+git clone https://github.com/moshoodfakorede/Laravel-Admin.git
+```
 
-## Laravel Sponsors
+After cloning the application, you need to install it's dependencies.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```
+$ cd Laravel-Admin
+$ composer install
+```
 
-### Premium Partners
+## Setup
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+When you are done with installation, copy the .env.example file to .env
 
-## Contributing
+```
+$ cp .env.example .env
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Generate the application key
 
-## Code of Conduct
+```
+$ php artisan key:generate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Create database connection
 
-## Security Vulnerabilities
+```
+DB_DATABASE=your_db_name
+DB_USERNAME=your_db_username
+DB_PASSWORD=your_db_password
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Run database migrations
 
-## License
+```
+$ php artisan migrate
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Run command to create passport encryption keys
+
+```
+php artisan passport:install
+```
+
+Seed Database
+
+```
+$ php artisan db:seed
+```
+
+Run the app
+
+```
+$ php artisan serve
+```
+
+## API Documentation
+
+This is accessible at `http://localhost:8000/api/documentation`
+
+To generate a token to test the api, run the command:
+
+```
+$ php artisan token:generate {id}
+```
+
+where `id` represents a User ID (the db seed creates 30 users, so this can range from 1-30).
+
+## Built With
+
+-   Laravel - The PHP framework for building the API endpoints needed for the application.
+-   Vue - The Progressive JavaScript Framework for building the interactive interfaces.
