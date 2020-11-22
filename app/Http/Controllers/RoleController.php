@@ -44,7 +44,7 @@ class RoleController extends Controller
 
         DB::table('role_permission')->where('role_id', $role->id)->delete();
 
-        if ($permissions = $request->input('permissons')) {
+        if ($permissions = $request->input('permissions')) {
             foreach ($permissions as $permission_id) {
                 DB::table('role_permission')->insert([
                     'role_id' => $role->id,
