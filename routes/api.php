@@ -25,3 +25,10 @@ Route::group([
     Route::apiResource('products', 'ProductController');
     Route::apiResource('orders', 'OrderController')->only(['index', 'show']);
 });
+
+Route::group([
+    'prefix' => 'influencer',
+    'namespace' => 'Influencer',
+], function () {
+    Route::get('products', 'ProductController@index');
+});
