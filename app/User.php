@@ -35,7 +35,7 @@ class User extends Authenticatable
     use HasApiTokens, Notifiable;
 
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password', 'role_id',
+        'first_name', 'last_name', 'email', 'password', 'is_influencer',
     ];
 
     protected $hidden = [
@@ -44,7 +44,7 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->belongsTo('App\Role');
+        return $this->hasOneThrough(Role::class, UserRole::class, 'user_id', 'id', 'id', 'role_id');
     }
 
     public function permissions()
@@ -55,5 +55,15 @@ class User extends Authenticatable
     public function hasAccess($access)
     {
         return $this->permissions()->contains($access);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->is_influencer === 0;
+    }
+
+    public function isInfluencer()
+    {
+        return $this->is_influencer === 1;
     }
 }

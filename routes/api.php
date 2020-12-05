@@ -10,6 +10,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('user', 'AuthController@user');
     Route::put('users/info', 'AuthController@updateInfo');
     Route::put('users/password', 'AuthController@updatePassword');
+    Route::post('logout', 'AuthController@logout');
 });
 
 // Admin Routes
@@ -18,8 +19,6 @@ Route::group([
     'prefix' => 'admin',
     'namespace' => 'Admin',
 ], function () {
-    Route::post('logout', 'AuthController@logout');
-
     Route::get('chart', 'DashboardController@chart');
     Route::post('upload', 'ImageController@upload');
     Route::get('export', 'OrderController@export');

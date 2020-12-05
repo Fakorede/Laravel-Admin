@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Influencer;
 
 use App\Http\Resources\ProductResource;
 use App\Product;
-use Request;
+use Illuminate\Http\Request;
 
 class ProductController
 {

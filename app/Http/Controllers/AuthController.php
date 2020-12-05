@@ -15,6 +15,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
+    public function register(RegisterRequest $request)
+    {
+        $user = User::create($request->only('first_name', 'last_name', 'email') + [
+            'password' => Hash::make($request->password),
+            'is_influencer' => 1,
+        ]);
+
+        return response($user, Response::HTTP_CREATED);
+    }
+
     public function login(Request $request)
     {
         if (Auth::attempt($request->only('email', 'password'))) {
@@ -46,15 +56,6 @@ class AuthController extends Controller
         ])->withCookie($cookie);
     }
 
-    public function register(RegisterRequest $request)
-    {
-        $user = User::create($request->only('first_name', 'last_name', 'email') + [
-            'password' => Hash::make($request->password),
-        ]);
-
-        return response($user, Response::HTTP_CREATED);
-    }
-
     /**
      * @OA\Get(
      *      path="/user",
@@ -73,7 +74,13 @@ class AuthController extends Controller
     {
         $user = Auth::user();
 
-        return (new UserResource($user))->additional([
+        $resource = new UserResource($user);
+
+        if ($user->isInfluencer()) {
+            return $resource;
+        }
+
+        return ($resource)->additional([
             'data' => [
                 'permissions' => $user->permissions(),
             ],
