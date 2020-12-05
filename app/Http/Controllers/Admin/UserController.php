@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\UpdateInfoRequest;
-use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
@@ -172,86 +169,5 @@ class UserController
 
         User::destroy($id);
         return response(null, Response::HTTP_NO_CONTENT);
-    }
-
-    /**
-     * @OA\Get(
-     *      path="/user",
-     *      operationId="getUserDetails",
-     *      tags={"Profile"},
-     *      summary="Get User Details",
-     *      description="Returns details of authenticated user",
-     *      @OA\Response(response=200,description="Successful"),
-     *      @OA\Response(response=400, description="Bad Request"),
-     *      security={{"bearerAuth": {}}}
-     * )
-     *
-     * Returns users information
-     */
-    public function user()
-    {
-        $user = Auth::user();
-
-        return (new UserResource($user))->additional([
-            'data' => [
-                'permissions' => $user->permissions(),
-            ],
-        ]);
-    }
-
-    /**
-     * @OA\Put(
-     *      path="/users/info",
-     *      operationId="updateUserInfo",
-     *      tags={"Profile"},
-     *      summary="Update User Details",
-     *      description="Updates Authenticated User Details",
-     *      @OA\Response(response=202, description="Successful"),
-     *      @OA\Response(response=400, description="Bad Request"),
-     *      @OA\RequestBody(
-     *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/UpdateInfoRequest")
-     *      ),
-     *      security={{"bearerAuth": {}}},
-     * )
-     *
-     * Updates a User Information
-     */
-    public function updateInfo(UpdateInfoRequest $request)
-    {
-        $user = Auth::user();
-
-        $user->update($request->only('first_name', 'last_name', 'email'));
-
-        return response(new UserResource($user), Response::HTTP_ACCEPTED);
-    }
-
-    /**
-     * @OA\Put(
-     *      path="/users/password",
-     *      operationId="updateUserPassword",
-     *      tags={"Profile"},
-     *      summary="Update User Password",
-     *      description="Updates Authenticated User Password",
-     *      @OA\Response(response=202, description="Successful"),
-     *      @OA\Response(response=400, description="Bad Request"),
-     *      @OA\RequestBody(
-     *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/UpdatePasswordRequest")
-     *      ),
-     *      security={{"bearerAuth": {}}},
-     * )
-     *
-     * Updates a User Password
-     */
-    public function updatePassword(UpdatePasswordRequest $request)
-    {
-        $user = Auth::user();
-
-        $user->update([
-            'password' => Hash::make($request->password),
-        ]);
-
-        return response(new UserResource($user), Response::HTTP_ACCEPTED);
     }
 }
