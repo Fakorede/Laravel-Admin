@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Resources\PermissionResource;
 use App\Permission;
 
-class PermissionController extends Controller
+class PermissionController
 {
     public function index()
     {

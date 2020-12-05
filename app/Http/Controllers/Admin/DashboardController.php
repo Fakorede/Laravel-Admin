@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Resources\ChartResource;
 use App\Order;
 use Illuminate\Support\Facades\Gate;
 
-class DashboardController extends Controller
+class DashboardController
 {
     public function chart()
     {
