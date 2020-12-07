@@ -15,7 +15,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 // Admin Routes
 Route::group([
-    'middleware' => 'auth:api',
+    'middleware' => ['auth:api', 'scope:admin'],
     'prefix' => 'admin',
     'namespace' => 'Admin',
 ], function () {
@@ -36,4 +36,10 @@ Route::group([
     'namespace' => 'Influencer',
 ], function () {
     Route::get('products', 'ProductController@index');
+
+    Route::group([
+        'middleware' => ['auth:api', 'scope:influencer'],
+    ], function() {
+        
+    });
 });

@@ -29,7 +29,16 @@ class AuthController extends Controller
     {
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
-            $token = $user->createToken('admin')->accessToken;
+
+            $scope = $request->input('scope');
+
+            if ($user->isInfluencer() && $scope !== 'influencer') {
+                return response([
+                    'error' => 'Access denied',
+                ], Response::HTTP_FORBIDDEN);
+            }
+
+            $token = $user->createToken($scope, [$scope])->accessToken;
 
             $cookie = cookie('jwt', $token, 3600);
 
@@ -37,9 +46,6 @@ class AuthController extends Controller
                 'token' => $token,
             ])->withCookie($cookie);
 
-            // return [
-            //     'token' => $token,
-            // ];
         }
 
         return response([
