@@ -40,6 +40,7 @@ Route::group([
     ], function () {
         Route::post('links', 'LinkController@store');
         Route::get('stats', 'StatsController@index');
+        Route::get('rankings', 'StatsController@rankings');
     });
 });
 
