@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Checkout;
 
+use App\Events\OrderCompleted;
 use App\Link;
 use App\Order;
 use App\OrderItem;
@@ -9,8 +10,6 @@ use App\Product;
 use Cartalyst\Stripe\Stripe;
 use DB;
 use Illuminate\Http\Request;
-use Illuminate\Mail\Message;
-use Illuminate\Support\Facades\Mail;
 
 class OrderController
 {
@@ -92,15 +91,7 @@ class OrderController
         $order->complete = 1;
         $order->save();
 
-        Mail::send('emails.admin', ['order' => $order], function (Message $message) {
-            $message->to('admin@admin.com');
-            $message->subject('A new Order has been completed!');
-        });
-
-        Mail::send('emails.influencer', ['order' => $order], function (Message $message) use ($order) {
-            $message->to($order->influencer_email);
-            $message->subject('A new Order has been completed!');
-        });
+        event(new OrderCompleted($order));
 
         return response([
             'message' => 'success',

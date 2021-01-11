@@ -1,0 +1,1 @@
+An account has been created for you on {{ config('app.name') }}. Your password is <span class="text-muted">password</span>. Login and reset your password to continue.
