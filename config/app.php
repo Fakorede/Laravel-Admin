@@ -14,6 +14,9 @@ return [
      */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'STRIPE_PK' => env('STRIPE_PUBLIC_KEY'),
+    'STRIPE_SK' => env('STRIPE_SECRET_KEY'),
+    'CHECKOUT_URL' => env('CHECKOUT_URL'),
 
     /*
     |--------------------------------------------------------------------------
