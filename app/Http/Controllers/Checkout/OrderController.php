@@ -9,6 +9,8 @@ use App\Product;
 use Cartalyst\Stripe\Stripe;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController
 {
@@ -55,13 +57,13 @@ class OrderController
                 'images' => [
                     $product->image,
                 ],
-                'amaount' => 100 * $product->price,
+                'amount' => 100 * $product->price,
                 'currency' => 'usd',
                 'quantity' => $orderItem->quantity,
             ];
         }
 
-        $stripe = Stripe::make(config('app.STRIPE_PK'));
+        $stripe = Stripe::make(config('app.STRIPE_SK'));
         $source = $stripe->checkout()->sessions()->create([
             'payment_method_types' => ['card'],
             'line_items' => $lineItems,
@@ -89,6 +91,16 @@ class OrderController
 
         $order->complete = 1;
         $order->save();
+
+        Mail::send('emails.admin', ['order' => $order], function (Message $message) {
+            $message->to('admin@admin.com');
+            $message->subject('A new Order has been completed!');
+        });
+
+        Mail::send('emails.influencer', ['order' => $order], function (Message $message) use ($order) {
+            $message->to($order->influencer_email);
+            $message->subject('A new Order has been completed!');
+        });
 
         return response([
             'message' => 'success',
