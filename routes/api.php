@@ -48,4 +48,5 @@ Route::group([
 ], function () {
     Route::get('links/{code}', 'LinkController@show');
     Route::post('orders', 'OrderController@store');
+    Route::post('orders/confirm', 'OrderController@confirm');
 });

@@ -76,4 +76,22 @@ class OrderController
 
         return $source;
     }
+
+    public function confirm(Request $request)
+    {
+        $order = Order::whereTransactionId($request->input('source'))->first();
+
+        if (!$order) {
+            return response([
+                'error' => 'Order not found!',
+            ], 404);
+        }
+
+        $order->complete = 1;
+        $order->save();
+
+        return response([
+            'message' => 'success',
+        ]);
+    }
 }
