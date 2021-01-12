@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Events\AdminAdded;
 use App\Events\OrderCompleted;
+use App\Events\ProductUpdated;
 use App\Listeners\NotifyAddedAdmin;
 use App\Listeners\NotifyAdmin;
 use App\Listeners\NotifyInfluencer;
+use App\Listeners\ProductCacheFlush;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -29,6 +31,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         AdminAdded::class => [
             NotifyAddedAdmin::class,
+        ],
+        ProductUpdated::class => [
+            ProductCacheFlush::class,
         ],
     ];
 
