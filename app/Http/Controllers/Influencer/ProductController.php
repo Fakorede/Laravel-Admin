@@ -10,16 +10,19 @@ class ProductController
 {
     public function index(Request $request)
     {
-        return \Cache::remember('products', 60 * 30, function () use ($request) {
-
-            $query = Product::query();
-
-            if ($s = $request->input('s')) {
-                $query->whereRaw("title LIKE '%{$s}%'")
-                    ->orWhereRaw("description LIKE '%{$s}%'");
-            }
-
-            return ProductResource::collection($query->get());
+        $products = \Cache::remember('products', 60 * 30, function () use ($request) {
+            return Product::all();
         });
+
+        $query = Product::query();
+
+        if ($s = $request->input('s')) {
+            $products = $products->filter(function (Product $product) use ($s) {
+                return \Str::contains($product->title, $s) ||
+                \Str::contains($product->description, $s);
+            });
+        }
+
+        return ProductResource::collection($products);
     }
 }
