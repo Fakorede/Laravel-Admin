@@ -9,6 +9,7 @@ use App\Listeners\NotifyAddedAdmin;
 use App\Listeners\NotifyAdmin;
 use App\Listeners\NotifyInfluencer;
 use App\Listeners\ProductCacheFlush;
+use App\Listeners\UpdateRankings;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -28,6 +29,7 @@ class EventServiceProvider extends ServiceProvider
         OrderCompleted::class => [
             NotifyAdmin::class,
             NotifyInfluencer::class,
+            UpdateRankings::class,
         ],
         AdminAdded::class => [
             NotifyAddedAdmin::class,

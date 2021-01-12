@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Influencer;
 use App\Link;
 use App\Order;
 use App\User;
+use Illuminate\Support\Facades\Redis;
 
 class StatsController
 {
@@ -30,15 +31,7 @@ class StatsController
 
     public function rankings()
     {
-        $users = User::where('is_influencer', 1)->get();
-
-        $rankings = $users->map(function (User $user) {
-            return [
-                'name' => $user->full_name,
-                'revenue' => $user->revenue,
-            ];
-        });
-
-        return $rankings->sortByDesc('revenue');
+        // retreive sorted set in desc order
+        return Redis::zrevrange('rankings', 0, -1, 'WITHSCORES');
     }
 }
